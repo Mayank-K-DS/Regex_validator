@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero">
+    <h1>Welcome to RegEx NLP Validator</h1>
+    <p>Validate phone numbers, emails, and dates with powerful regular expressions</p>
+    
+    <div class="features">
+        <div class="feature-card">
+            <i class="fas fa-phone-alt"></i>
+            <h3>Phone Validation</h3>
+            <p>Validate phone numbers from multiple countries with correct formats</p>
+            <a href="/phone" class="button btn-phone">Try it</a>
+        </div>
+        
+        <div class="feature-card">
+            <i class="fas fa-envelope"></i>
+            <h3>Email Validation</h3>
+            <p>Ensure email addresses follow standard format requirements</p>
+            <a href="/email" class="button btn-email">Try it</a>
+        </div>
+        
+        <div class="feature-card">
+            <i class="fas fa-calendar-alt"></i>
+            <h3>Date Validation</h3>
+            <p>Check dates in various formats for correctness</p>
+            <a href="/date" class="button btn-date">Try it</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+<div class="form-container">
+    <h1><i class="fas fa-history"></i> Validation History</h1>
+    <p>View your recent validation activities</p>
+    
+    {% if history %}
+        <div class="history-actions">
+            <form action="{{ url_for('clear_history') }}" method="post">
+                <button type="submit" class="button clear-history-btn">
+                    <i class="fas fa-trash-alt"></i> Clear History
+                </button>
+            </form>
+        </div>
+        
+        <div class="history-list">
+            {% for item in history %}
+                <div class="history-item {% if item.valid %}valid{% else %}invalid{% endif %}">
+                    <div class="history-header">
+                        <div class="history-type">
+                            {% if item.type == 'Phone' %}
+                                <i class="fas fa-phone"></i>
+                            {% elif item.type == 'Email' %}
+                                <i class="fas fa-envelope"></i>
+                            {% elif item.type == 'Date' %}
+                                <i class="fas fa-calendar"></i>
+                            {% endif %}
+                            {{ item.type }}
+                        </div>
+                        <div class="history-timestamp">
+                            <i class="fas fa-clock"></i> {{ item.timestamp }}
+                        </div>
+                    </div>
+                    <div class="history-content">
+                        <div class="history-input">
+                            <strong>Input:</strong> {{ item.input }}
+                        </div>
+                        {% if item.additional_info %}
+                            <div class="history-additional">
+                                <strong>
+                                    {% if item.type == 'Phone' %}
+                                        Country:
+                                    {% elif item.type == 'Date' %}
+                                        Format:
+                                    {% else %}
+                                        Info:
+                                    {% endif %}
+                                </strong>
+                                {{ item.additional_info }}
+                            </div>
+                        {% endif %}
+                        <div class="history-result">
+                            <div class="history-status">
+                                {% if item.valid %}
+                                    <i class="fas fa-check-circle result-icon"></i>
+                                {% else %}
+                                    <i class="fas fa-times-circle result-icon"></i>
+                                {% endif %}
+                            </div>
+                            <div class="history-message">{{ item.message }}</div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-history">
+            <i class="fas fa-info-circle"></i>
+            <p>No validation history yet. Try validating some inputs!</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

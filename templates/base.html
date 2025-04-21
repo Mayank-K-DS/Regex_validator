@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegEx NLP Validator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-check-circle"></i>
+            <a href="/" class="logo-link">RegEx Validator</a>
+        </div>
+        <div class="nav-controls">
+            <div class="theme-switch-wrapper">
+                <span class="theme-icon"><i class="fas fa-sun"></i></span>
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span class="theme-icon"><i class="fas fa-moon"></i></span>
+            </div>
+            <div class="menu-container">
+                <div class="menu-button">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="dropdown-menu">
+                    <a href="/" class="menu-item"><i class="fas fa-home"></i> Home</a>
+                    <a href="/phone" class="menu-item"><i class="fas fa-phone"></i> Phone</a>
+                    <a href="/email" class="menu-item"><i class="fas fa-envelope"></i> Email</a>
+                    <a href="/date" class="menu-item"><i class="fas fa-calendar"></i> Date</a>
+                    <a href="/history" class="menu-item"><i class="fas fa-history"></i> History</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p>NLP Project Mayank Kumar, Aditya Vashisht (23117022, 23126003)</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h1><i class="fas fa-calendar"></i> Date Validation</h1>
+    <p>Enter a date and select a format to validate</p>
+    
+    <form id="dateForm" class="validator-form">
+        <div class="form-group">
+            <label for="format">Date Format</label>
+            <div class="custom-select">
+                <select id="format" name="format" required>
+                    {% for format in formats %}
+                    <option value="{{ format }}">{{ format }}</option>
+                    {% endfor %}
+                </select>
+                <div class="select-arrow"></div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="text" id="date" name="date" placeholder="Enter date" required>
+        </div>
+        
+        <button type="submit" class="validate-btn btn-date">
+            <span class="validate-text">Validate</span>
+        </button>
+    </form>
+    
+    <div id="result" class="result-container hidden">
+        <div class="result-icon">
+            <i class="fas"></i>
+        </div>
+        <div class="result-message"></div>
+    </div>
+    
+    <div class="format-guide">
+        <h3>Format Examples</h3>
+        <ul>
+            <li><strong>MM/DD/YYYY:</strong> 04/21/2025</li>
+            <li><strong>DD/MM/YYYY:</strong> 21/04/2025</li>
+            <li><strong>YYYY-MM-DD:</strong> 2025-04-21</li>
+            <li><strong>Month DD, YYYY:</strong> April 21, 2025</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+document.getElementById('dateForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    
+    fetch('/validate/date', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        const resultDiv = document.getElementById('result');
+        const icon = resultDiv.querySelector('.result-icon i');
+        const message = resultDiv.querySelector('.result-message');
+        
+        resultDiv.classList.remove('hidden');
+        
+        if (data.valid) {
+            resultDiv.className = 'result-container valid';
+            icon.className = 'fas fa-check-circle';
+        } else {
+            resultDiv.className = 'result-container invalid';
+            icon.className = 'fas fa-times-circle';
+        }
+        
+        message.textContent = data.message;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+// Update placeholder based on selected format
+document.getElementById('format').addEventListener('change', function() {
+    const format = this.value;
+    const dateInput = document.getElementById('date');
+    
+    switch(format) {
+        case 'MM/DD/YYYY':
+            dateInput.placeholder = 'e.g., 04/21/2025';
+            break;
+        case 'DD/MM/YYYY':
+            dateInput.placeholder = 'e.g., 21/04/2025';
+            break;
+        case 'YYYY-MM-DD':
+            dateInput.placeholder = 'e.g., 2025-04-21';
+            break;
+        case 'Month DD, YYYY':
+            dateInput.placeholder = 'e.g., April 21, 2025';
+            break;
+    }
+});
+</script>
+{% endblock %}

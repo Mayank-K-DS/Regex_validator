@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="form-container">
+    <h1><i class="fas fa-envelope"></i> Email Validation</h1>
+    <p>Enter an email address to validate its format</p>
+    
+    <form id="emailForm" class="validator-form">
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="text" id="email" name="email" placeholder="Enter email address" required>
+        </div>
+        
+        <button type="submit" class="validate-btn btn-email">
+            <span class="validate-text">Validate</span>
+        </button>
+    </form>
+    
+    <div id="result" class="result-container hidden">
+        <div class="result-icon">
+            <i class="fas"></i>
+        </div>
+        <div class="result-message"></div>
+    </div>
+    
+    <div class="format-guide">
+        <h3>Email Format Rules</h3>
+        <ul>
+            <li>Must contain a username followed by @ symbol</li>
+            <li>Must have a domain name after the @ symbol</li>
+            <li>Domain must include a top-level domain (.com, .org, etc.)</li>
+            <li>May contain letters, numbers, dots, underscores and hyphens</li>
+            <li>Example: user.name@example.com</li>
+        </ul>
+    </div>
+</div>
+
+<script>
+document.getElementById('emailForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    
+    fetch('/validate/email', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        const resultDiv = document.getElementById('result');
+        const icon = resultDiv.querySelector('.result-icon i');
+        const message = resultDiv.querySelector('.result-message');
+        
+        resultDiv.classList.remove('hidden');
+        
+        if (data.valid) {
+            resultDiv.className = 'result-container valid';
+            icon.className = 'fas fa-check-circle';
+        } else {
+            resultDiv.className = 'result-container invalid';
+            icon.className = 'fas fa-times-circle';
+        }
+        
+        message.textContent = data.message;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+</script>
+{% endblock %}
