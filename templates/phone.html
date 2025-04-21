@@ -48,35 +48,41 @@
 </div>
 
 <script>
-document.getElementById('phoneForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
+    document.getElementById('phoneForm').addEventListener('submit', function(e) {
+        e.preventDefault();
     
-    fetch('/validate/phone', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        const resultDiv = document.getElementById('result');
-        const icon = resultDiv.querySelector('.result-icon i');
-        const message = resultDiv.querySelector('.result-message');
+        // Trim the phone number input before submission
+        const phoneInput = document.getElementById('phone');
+        phoneInput.value = phoneInput.value.trim();
+    
+        const formData = new FormData(this);
         
-        resultDiv.classList.remove('hidden');
-        
-        if (data.valid) {
-            resultDiv.className = 'result-container valid';
-            icon.className = 'fas fa-check-circle';
-        } else {
-            resultDiv.className = 'result-container invalid';
-            icon.className = 'fas fa-times-circle';
-        }
-        
-        message.textContent = data.message;
-    })
-    .catch(error => {
-        console.error('Error:', error);
+        fetch('/validate/phone', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            const resultDiv = document.getElementById('result');
+            const icon = resultDiv.querySelector('.result-icon i');
+            const message = resultDiv.querySelector('.result-message');
+            
+            resultDiv.classList.remove('hidden');
+            
+            if (data.valid) {
+                resultDiv.className = 'result-container valid';
+                icon.className = 'fas fa-check-circle';
+            } else {
+                resultDiv.className = 'result-container invalid';
+                icon.className = 'fas fa-times-circle';
+            }
+            
+            message.textContent = data.message;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     });
-});
 </script>
+    
 {% endblock %}
