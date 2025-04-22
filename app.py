@@ -15,7 +15,7 @@ os.makedirs('static/js', exist_ok=True)
 os.makedirs('templates', exist_ok=True)
 os.makedirs('history', exist_ok=True)
 
-# Phone number regex patterns by country
+# Phone number regex patterns by country ()
 phone_patterns = {
     'US': r'^\+?1?\s*\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$',
     'UK': r'^\+?44\s?(\d{2,5})\s?(\d{3,4})\s?(\d{3,4})$',
